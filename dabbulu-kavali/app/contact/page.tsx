@@ -1,0 +1,2 @@
+import Header from "@/components/Header";
+export default function Contact(){return <><Header/><main className="page"><span className="eyebrow">CONTACT</span><h1>Get in touch</h1><p className="prose">For corrections, editorial feedback, partnership enquiries or general questions about Dabbulu Kavali, email <a href="mailto:hello@dabbulukavali.in">hello@dabbulukavali.in</a>. Replace this placeholder address with an inbox you actively monitor before launch.</p></main></>;}

@@ -1,0 +1,10 @@
+import Link from "next/link";
+import Header from "@/components/Header";
+import AdSlot from "@/components/AdSlot";
+import { db } from "@/lib/db";
+export const revalidate = 60;
+export default async function Home() {
+ const articles = await db.article.findMany({where:{status:"PUBLISHED"},orderBy:{publishedAt:"desc"},take:12});
+ const featured = articles.find(a=>a.featured) || articles[0];
+ return <><Header/><main><section className="hero"><div><span className="eyebrow">PERSONAL FINANCE · MADE SIMPLE</span><h1>Make smarter money decisions, <em>one day at a time.</em></h1><p>Simple, practical guides on saving, banking, budgeting, investing basics and building better money habits.</p><a className="button" href="#latest">Explore latest articles</a></div><div className="hero-art"><img src="/logo.png" alt="Dabbulu Kavali logo"/></div></section><AdSlot/><section className="section" id="latest"><div className="section-head"><div><span className="eyebrow">FRESH KNOWLEDGE</span><h2>Latest articles</h2></div><span className="muted">Learn something useful every day</span></div>{featured && <Link className="featured" href={`/articles/${featured.slug}`}><div className="feature-label">FEATURED · {featured.category}</div><h3>{featured.title}</h3><p>{featured.excerpt}</p><b>Read article →</b></Link>}<div className="grid">{articles.filter(a=>a.id!==featured?.id).map(a=><Link className="article-card" href={`/articles/${a.slug}`} key={a.id}><span>{a.category}</span><h3>{a.title}</h3><p>{a.excerpt}</p><b>Read more →</b></Link>)}</div>{articles.length===0&&<div className="empty">Your first article will appear here. Sign in to the <Link href="/admin">admin dashboard</Link> to publish it.</div>}</section><section className="newsletter"><h2>Build your money knowledge</h2><p>Bookmark Dabbulu Kavali and check back for practical, easy-to-understand financial explainers.</p></section></main><footer>© {new Date().getFullYear()} Dabbulu Kavali · Educational content only. Not investment advice. <br/><a href='/about'>About</a> · <a href='/contact'>Contact</a> · <a href='/privacy'>Privacy</a> · <a href='/disclaimer'>Disclaimer</a></footer></>;
+}

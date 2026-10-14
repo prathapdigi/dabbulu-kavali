@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model Article {
+  id          String   @id @default(cuid())
+  title       String
+  titleTe     String?
+  excerptTe   String?
+  contentTe   String?
+  slug        String   @unique
+  excerpt     String
+  content     String
+  category    String   @default("Personal Finance")
+  coverImage  String?
+  status      String   @default("DRAFT")
+  featured    Boolean  @default(false)
+  seoTitle    String?
+  seoDescription String?
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
